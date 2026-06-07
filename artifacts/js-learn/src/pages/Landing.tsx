@@ -1,7 +1,8 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Zap, GitBranch, Layers, CheckCircle, Clock, ChevronRight } from "lucide-react";
-import { useListDocs } from "@workspace/api-client-react";
+import { getChapters } from "@/data/chapters";
+import { useProgress } from "@/hooks/use-progress";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -21,12 +22,13 @@ const features = [
   {
     icon: GitBranch,
     title: "Interactive diagrams",
-    description: "Scope chains, call stacks, event loops, prototype chains — rendered live so you can see what's really happening.",
+    description:
+      "Scope chains, call stacks, event loops, prototype chains — rendered live so you can see what's really happening.",
   },
   {
     icon: Zap,
     title: "Syntax-highlighted code",
-    description: "Every example is runnable, copy-able, and rendered with full syntax highlighting.",
+    description: "Every example is copy-able and rendered with full syntax highlighting.",
   },
   {
     icon: Layers,
@@ -52,9 +54,11 @@ counter(); // 1
 counter(); // 2
 counter(); // 3`;
 
+const allChapters = getChapters();
+
 export function Landing() {
-  const { data: chapters } = useListDocs();
-  const previewChapters = chapters?.slice(0, 5) ?? [];
+  const { isCompleted } = useProgress();
+  const previewChapters = allChapters.slice(0, 5);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -130,7 +134,8 @@ export function Landing() {
                   className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-md"
                   data-testid="hero-subtext"
                 >
-                  A precise, doc-driven course that takes you from first principles through closures, async patterns, and prototypes — with interactive diagrams at every step.
+                  A precise, doc-driven course that takes you from first principles through closures, async patterns,
+                  and prototypes — with interactive diagrams at every step.
                 </motion.p>
 
                 <motion.div
@@ -219,7 +224,8 @@ export function Landing() {
                 Built for real understanding
               </h2>
               <p className="text-muted-foreground max-w-md mx-auto">
-                Not another syntax tutorial. Every chapter is written to explain the <em>why</em>, not just the <em>what</em>.
+                Not another syntax tutorial. Every chapter is written to explain the <em>why</em>, not just the{" "}
+                <em>what</em>.
               </p>
             </motion.div>
 
@@ -260,7 +266,9 @@ export function Landing() {
               className="mb-12 flex items-end justify-between"
             >
               <div>
-                <h2 className="text-3xl font-bold mb-2" data-testid="curriculum-heading">Curriculum</h2>
+                <h2 className="text-3xl font-bold mb-2" data-testid="curriculum-heading">
+                  Curriculum
+                </h2>
                 <p className="text-muted-foreground">From first principles to advanced patterns.</p>
               </div>
               <Link
@@ -273,59 +281,53 @@ export function Landing() {
             </motion.div>
 
             <div className="space-y-2">
-              {previewChapters.length === 0
-                ? Array.from({ length: 5 }).map((_, i) => (
-                    <div key={i} className="h-16 rounded-lg bg-muted animate-pulse" />
-                  ))
-                : previewChapters.map((chapter, i) => (
-                    <motion.div
-                      key={chapter.slug}
-                      custom={i}
-                      variants={fadeUp}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                    >
-                      <Link
-                        href={`/docs/${chapter.slug}`}
-                        className="group flex items-center justify-between rounded-lg border border-border bg-card px-5 py-4 hover:border-primary/50 hover:bg-primary/5 transition-all"
-                        data-testid={`curriculum-item-${chapter.slug}`}
+              {previewChapters.map((chapter, i) => (
+                <motion.div
+                  key={chapter.slug}
+                  custom={i}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
+                  <Link
+                    href={`/docs/${chapter.slug}`}
+                    className="group flex items-center justify-between rounded-lg border border-border bg-card px-5 py-4 hover:border-primary/50 hover:bg-primary/5 transition-all"
+                    data-testid={`curriculum-item-${chapter.slug}`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-xs font-mono text-muted-foreground w-5">
+                        {String(chapter.order).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <span className="font-medium text-sm">{chapter.title}</span>
+                        <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1 max-w-sm">
+                          {chapter.description}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 shrink-0">
+                      <span className="hidden sm:flex items-center gap-1 text-xs text-muted-foreground">
+                        <Clock className="h-3 w-3" />
+                        {chapter.estimatedMinutes} min
+                      </span>
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                          chapter.difficulty === "beginner"
+                            ? "bg-green-500/10 text-green-500"
+                            : chapter.difficulty === "intermediate"
+                              ? "bg-accent/20 text-accent-foreground"
+                              : "bg-red-500/10 text-red-500"
+                        }`}
                       >
-                        <div className="flex items-center gap-4">
-                          <span className="text-xs font-mono text-muted-foreground w-5">
-                            {String(chapter.order).padStart(2, "0")}
-                          </span>
-                          <div>
-                            <span className="font-medium text-sm">{chapter.title}</span>
-                            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1 max-w-sm">
-                              {chapter.description}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4 shrink-0">
-                          <span className="hidden sm:flex items-center gap-1 text-xs text-muted-foreground">
-                            <Clock className="h-3 w-3" />
-                            {chapter.estimatedMinutes} min
-                          </span>
-                          <span
-                            className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                              chapter.difficulty === "beginner"
-                                ? "bg-green-500/10 text-green-500"
-                                : chapter.difficulty === "intermediate"
-                                ? "bg-accent/20 text-accent-foreground"
-                                : "bg-red-500/10 text-red-500"
-                            }`}
-                          >
-                            {chapter.difficulty}
-                          </span>
-                          {chapter.completed && (
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                          )}
-                          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                        </div>
-                      </Link>
-                    </motion.div>
-                  ))}
+                        {chapter.difficulty}
+                      </span>
+                      {isCompleted(chapter.slug) && <CheckCircle className="h-4 w-4 text-green-500" />}
+                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -366,8 +368,12 @@ export function Landing() {
             LearnJS
           </div>
           <div className="flex items-center gap-6">
-            <Link href="/learn" className="hover:text-foreground transition-colors">Curriculum</Link>
-            <Link href="/progress" className="hover:text-foreground transition-colors">Progress</Link>
+            <Link href="/learn" className="hover:text-foreground transition-colors">
+              Curriculum
+            </Link>
+            <Link href="/progress" className="hover:text-foreground transition-colors">
+              Progress
+            </Link>
           </div>
         </div>
       </footer>
