@@ -52,7 +52,7 @@ export function Home() {
           <>
             {/* Progress Overview */}
             {progress && (
-              <div className="rounded-xl border bg-card p-6 shadow-sm">
+              <div className="rounded-xl border bg-card p-6 shadow-sm text-center">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                   <div className="space-y-3 flex-1">
                     <div className="flex items-center justify-between">
