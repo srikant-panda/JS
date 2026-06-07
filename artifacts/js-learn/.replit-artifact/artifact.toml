@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Learn JavaScript"
+version = "1.0.0"
+id = "artifacts/js-learn"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25384
+
+[services.development]
+run = "pnpm --filter @workspace/js-learn run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/js-learn", "run", "build" ]
+publicDir = "artifacts/js-learn/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25384"
+BASE_PATH = "/"

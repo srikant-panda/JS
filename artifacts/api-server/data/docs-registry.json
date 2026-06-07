@@ -1,0 +1,132 @@
+[
+  {
+    "slug": "what-is-javascript",
+    "title": "What is JavaScript?",
+    "description": "A tour of JavaScript's history, execution model, and what makes it uniquely powerful among programming languages.",
+    "order": 1,
+    "category": "Foundations",
+    "difficulty": "beginner",
+    "estimatedMinutes": 8,
+    "file": "01-what-is-javascript.md",
+    "diagrams": [
+      {
+        "id": "js-engine-flow",
+        "type": "flowchart",
+        "title": "How the JavaScript Engine Works",
+        "data": "flowchart TD\n  A[Source Code] --> B[Parser]\n  B --> C[Abstract Syntax Tree]\n  C --> D[Bytecode Generator]\n  D --> E[Interpreter]\n  E -->|hot code| F[JIT Compiler]\n  F --> G[Optimized Machine Code]\n  E --> H[Output / Side Effects]\n  G --> H"
+      }
+    ]
+  },
+  {
+    "slug": "variables-and-types",
+    "title": "Variables and Types",
+    "description": "Learn var, let, and const; explore JavaScript's eight types; understand dynamic typing and type coercion.",
+    "order": 2,
+    "category": "Foundations",
+    "difficulty": "beginner",
+    "estimatedMinutes": 10,
+    "file": "02-variables-and-types.md",
+    "diagrams": [
+      {
+        "id": "type-coercion-flow",
+        "type": "flowchart",
+        "title": "Type Coercion Rules",
+        "data": "flowchart LR\n  A[Value A] --> C{Operator}\n  B[Value B] --> C\n  C -->|+| D{Is either a string?}\n  D -->|Yes| E[String concatenation]\n  D -->|No| F[Numeric addition]\n  C -->|-, *, /| G[Convert both to numbers]\n  G --> H[Numeric operation]"
+      }
+    ]
+  },
+  {
+    "slug": "functions",
+    "title": "Functions",
+    "description": "Master function declarations, expressions, arrow functions, parameters, rest/spread, and the concept of first-class functions.",
+    "order": 3,
+    "category": "Foundations",
+    "difficulty": "beginner",
+    "estimatedMinutes": 12,
+    "file": "03-functions.md",
+    "diagrams": [
+      {
+        "id": "function-call-stack",
+        "type": "callstack",
+        "title": "The Call Stack",
+        "data": "sequenceDiagram\n  participant Global\n  participant outer\n  participant inner\n  Global->>outer: call outer()\n  outer->>inner: call inner()\n  inner-->>outer: return value\n  outer-->>Global: return value"
+      }
+    ]
+  },
+  {
+    "slug": "scope-and-closures",
+    "title": "Scope and Closures",
+    "description": "Understand lexical scope, block scope, and the closure mechanism that gives JavaScript so much of its power.",
+    "order": 4,
+    "category": "Core Concepts",
+    "difficulty": "intermediate",
+    "estimatedMinutes": 15,
+    "file": "04-scope-and-closures.md",
+    "diagrams": [
+      {
+        "id": "scope-chain",
+        "type": "scope",
+        "title": "The Scope Chain",
+        "data": "flowchart TB\n  subgraph Global [Global Scope]\n    x[\"x = 10\"]\n    subgraph Outer [outer() Scope]\n      y[\"y = 20\"]\n      subgraph Inner [inner() Scope]\n        z[\"z = 30\"]\n        lookup[\"Access x, y, z\"]\n      end\n    end\n  end\n  lookup -->|found locally| z\n  lookup -->|walk up| y\n  lookup -->|walk up| x"
+      }
+    ]
+  },
+  {
+    "slug": "async-javascript",
+    "title": "Async JavaScript",
+    "description": "From callbacks to Promises to async/await — learn how JavaScript handles time-consuming operations without blocking.",
+    "order": 5,
+    "category": "Core Concepts",
+    "difficulty": "intermediate",
+    "estimatedMinutes": 18,
+    "file": "05-async-javascript.md",
+    "diagrams": [
+      {
+        "id": "event-loop",
+        "type": "event-loop",
+        "title": "The Event Loop",
+        "data": "flowchart LR\n  subgraph JS Thread\n    CallStack[\"Call Stack\\n(LIFO)\"] \n  end\n  subgraph Browser / Node\n    WebAPIs[\"Web APIs\\n(setTimeout, fetch, DOM)\"]\n  end\n  subgraph Queues\n    Microtask[\"Microtask Queue\\n(Promises, queueMicrotask)\"]\n    MacroTask[\"Task Queue\\n(setTimeout, setInterval)\"]\n  end\n  CallStack -->|async call| WebAPIs\n  WebAPIs -->|callback| MacroTask\n  WebAPIs -->|promise| Microtask\n  Microtask -->|when stack empty, first| CallStack\n  MacroTask -->|when stack + microtasks empty| CallStack"
+      }
+    ]
+  },
+  {
+    "slug": "prototypes-and-classes",
+    "title": "Prototypes and Classes",
+    "description": "Explore JavaScript's prototype-based inheritance model, ES6 classes, private fields, and the prototype chain.",
+    "order": 6,
+    "category": "Core Concepts",
+    "difficulty": "intermediate",
+    "estimatedMinutes": 16,
+    "file": "06-prototypes-and-classes.md",
+    "diagrams": [
+      {
+        "id": "prototype-chain",
+        "type": "prototype-chain",
+        "title": "The Prototype Chain",
+        "data": "flowchart BT\n  Obj[\"dog instance\\n{bark: fn}\"] -->|__proto__| Animal[\"Animal.prototype\\n{breathe: fn}\"] \n  Animal -->|__proto__| ObjProto[\"Object.prototype\\n{toString, hasOwnProperty, ...}\"]\n  ObjProto -->|__proto__| Null[null]"
+      }
+    ]
+  },
+  {
+    "slug": "arrays-and-iteration",
+    "title": "Arrays and Iteration",
+    "description": "Master array creation, transformation with map/filter/reduce, destructuring, spread, and iteration patterns.",
+    "order": 7,
+    "category": "Core Concepts",
+    "difficulty": "beginner",
+    "estimatedMinutes": 14,
+    "file": "07-arrays-and-iteration.md",
+    "diagrams": []
+  },
+  {
+    "slug": "error-handling",
+    "title": "Error Handling",
+    "description": "Learn try/catch/finally, custom error classes, async error patterns, and how to never silently swallow exceptions.",
+    "order": 8,
+    "category": "Best Practices",
+    "difficulty": "intermediate",
+    "estimatedMinutes": 12,
+    "file": "08-error-handling.md",
+    "diagrams": []
+  }
+]

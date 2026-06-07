@@ -1,15 +1,18 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: JavaScript learning platform API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: docs
+    description: Learning documentation
+  - name: progress
+    description: User learning progress
 paths:
   /healthz:
     get:
@@ -24,6 +27,88 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /docs:
+    get:
+      operationId: listDocs
+      tags: [docs]
+      summary: List all chapters
+      description: Returns all learning chapters with metadata
+      responses:
+        "200":
+          description: List of chapters
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Chapter"
+
+  /docs/{slug}:
+    get:
+      operationId: getDoc
+      tags: [docs]
+      summary: Get a chapter by slug
+      description: Returns the full markdown content and metadata for a chapter
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Chapter with content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChapterDetail"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /progress:
+    get:
+      operationId: getProgress
+      tags: [progress]
+      summary: Get overall learning progress
+      description: Returns summary of completed lessons and overall stats
+      responses:
+        "200":
+          description: Progress summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProgressSummary"
+
+  /progress/{slug}:
+    post:
+      operationId: markComplete
+      tags: [progress]
+      summary: Toggle lesson completion
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProgressInput"
+      responses:
+        "200":
+          description: Updated progress entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProgressEntry"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +119,114 @@ components:
       required:
         - status
 
+    Chapter:
+      type: object
+      required: [slug, title, description, order, category, difficulty, estimatedMinutes]
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        order:
+          type: integer
+        category:
+          type: string
+        difficulty:
+          type: string
+          enum: [beginner, intermediate, advanced]
+        estimatedMinutes:
+          type: integer
+        completed:
+          type: ["boolean", "null"]
+
+    ChapterDetail:
+      type: object
+      required: [slug, title, description, order, category, difficulty, estimatedMinutes, content, diagrams]
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        order:
+          type: integer
+        category:
+          type: string
+        difficulty:
+          type: string
+          enum: [beginner, intermediate, advanced]
+        estimatedMinutes:
+          type: integer
+        content:
+          type: string
+          description: Full markdown content of the chapter
+        diagrams:
+          type: array
+          items:
+            $ref: "#/components/schemas/Diagram"
+        completed:
+          type: ["boolean", "null"]
+        prevSlug:
+          type: ["string", "null"]
+        nextSlug:
+          type: ["string", "null"]
+
+    Diagram:
+      type: object
+      required: [id, type, title, data]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [flowchart, scope, callstack, memory, event-loop, prototype-chain]
+        title:
+          type: string
+        data:
+          type: string
+          description: Mermaid diagram definition or JSON config
+
+    ProgressSummary:
+      type: object
+      required: [totalChapters, completedChapters, percentComplete, completedSlugs, streakDays]
+      properties:
+        totalChapters:
+          type: integer
+        completedChapters:
+          type: integer
+        percentComplete:
+          type: integer
+        completedSlugs:
+          type: array
+          items:
+            type: string
+        streakDays:
+          type: integer
+
+    ProgressInput:
+      type: object
+      required: [completed]
+      properties:
+        completed:
+          type: boolean
+
+    ProgressEntry:
+      type: object
+      required: [slug, completed, completedAt]
+      properties:
+        slug:
+          type: string
+        completed:
+          type: boolean
+        completedAt:
+          type: ["string", "null"]
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
