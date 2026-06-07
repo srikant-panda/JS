@@ -4,10 +4,10 @@
     {
       "src": "artifacts/js-learn/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "artifacts/js-learn/dist/public" }
+      "config": { "distDir": "dist/public" }
     }
   ],
-  "outputDirectory": "artifacts/js-learn/dist/public",
+  "outputDirectory": "dist/public",
   "routes": [
     { "src": "/(.*)", "dest": "/index.html" }
   ]
