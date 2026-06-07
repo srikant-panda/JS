@@ -40,7 +40,7 @@ export function Sidebar({ isMobile, onNavigate }: SidebarProps) {
       isMobile ? "h-full w-full" : "fixed inset-y-0 left-0 z-20 w-72"
     )}>
       <div className="flex h-16 shrink-0 items-center px-6 border-b">
-        <Link href="/" onClick={handleNav} className="flex items-center gap-2 font-bold tracking-tight text-lg text-primary">
+        <Link href="/learn" onClick={handleNav} className="flex items-center gap-2 font-bold tracking-tight text-lg text-primary">
           <BookOpen className="h-5 w-5" />
           <span>LearnJS</span>
         </Link>
