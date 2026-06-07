@@ -24,13 +24,23 @@ function CursorGlow() {
 
   const onMove = useCallback((e: MouseEvent) => {
     setPos({ x: e.clientX, y: e.clientY });
-    setVisible(true);
 
+    // Only show on blank space — not over interactive or text elements
+    const tag = (e.target as Element).tagName.toLowerCase();
+    const isBlank = ["div", "section", "main", "body", "header", "footer"].includes(tag) &&
+      !(e.target as Element).closest("a, button, input, textarea, [role='button'], pre, code, h1, h2, h3, p, span");
+
+    if (!isBlank) {
+      setVisible(false);
+      return;
+    }
+
+    setVisible(true);
     if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setVisible(false), 2000);
+    timerRef.current = setTimeout(() => setVisible(false), 1800);
 
     counterRef.current += 1;
-    if (counterRef.current % 18 === 0) {
+    if (counterRef.current % 14 === 0) {
       const pool = [...JS_CONCEPTS].sort(() => Math.random() - 0.5).slice(0, 5);
       setConcepts(
         pool.map((text, i) => ({
@@ -53,31 +63,6 @@ function CursorGlow() {
       className="pointer-events-none fixed inset-0 z-50 overflow-hidden"
       aria-hidden
     >
-      <AnimatePresence>
-        {visible && (
-          <motion.div
-            key="glow"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.15 }}
-            style={{
-              position: "fixed",
-              left: pos.x,
-              top: pos.y,
-              transform: "translate(-50%, -50%)",
-              width: 260,
-              height: 260,
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle at center, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.09) 30%, rgba(255,255,255,0.03) 60%, transparent 75%)",
-              border: "1px solid rgba(255,255,255,0.10)",
-              pointerEvents: "none",
-            }}
-          />
-        )}
-      </AnimatePresence>
-
       <AnimatePresence>
         {visible &&
           concepts.map(({ text, angle, dist, key }) => {
