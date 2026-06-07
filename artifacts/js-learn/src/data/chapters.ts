@@ -380,11 +380,11 @@ function increment() {
         type: "scope",
         title: "The Scope Chain",
         data: `flowchart TB
-  subgraph Global [Global Scope]
+  subgraph GlobalScope [Global Scope]
     x["x = 10"]
-    subgraph Outer [outer() Scope]
+    subgraph OuterScope [Outer Function Scope]
       y["y = 20"]
-      subgraph Inner [inner() Scope]
+      subgraph InnerScope [Inner Function Scope]
         z["z = 30"]
         lookup["Access x, y, z"]
       end
@@ -508,21 +508,21 @@ for (let i = 0; i < 3; i++) {
         type: "event-loop",
         title: "The Event Loop",
         data: `flowchart LR
-  subgraph JS Thread
-    CallStack["Call Stack\n(LIFO)"]
+  subgraph JSThread [JS Thread]
+    CallStack["Call Stack (LIFO)"]
   end
-  subgraph Browser / Node
-    WebAPIs["Web APIs\n(setTimeout, fetch, DOM)"]
+  subgraph BrowserNode [Browser or Node]
+    WebAPIs["Web APIs: setTimeout, fetch, DOM"]
   end
-  subgraph Queues
-    Microtask["Microtask Queue\n(Promises)"]
-    MacroTask["Task Queue\n(setTimeout, setInterval)"]
+  subgraph TaskQueues [Queues]
+    Microtask["Microtask Queue: Promises"]
+    MacroTask["Task Queue: setTimeout, setInterval"]
   end
   CallStack -->|async call| WebAPIs
   WebAPIs -->|callback| MacroTask
-  WebAPIs -->|promise| Microtask
-  Microtask -->|when stack empty, first| CallStack
-  MacroTask -->|when stack + microtasks empty| CallStack`,
+  WebAPIs -->|promise resolved| Microtask
+  Microtask -->|stack empty, runs first| CallStack
+  MacroTask -->|stack and microtasks empty| CallStack`,
       },
     ],
     content: `JavaScript is single-threaded, yet it handles thousands of concurrent operations. The secret is the **event loop** — a masterpiece of asynchronous engineering.
@@ -624,8 +624,8 @@ console.log("4");
         type: "prototype-chain",
         title: "The Prototype Chain",
         data: `flowchart BT
-  Obj["dog instance\n{bark: fn}"] -->|__proto__| Animal["Animal.prototype\n{breathe: fn}"]
-  Animal -->|__proto__| ObjProto["Object.prototype\n{toString, hasOwnProperty, ...}"]
+  Obj["dog instance: bark()"] -->|__proto__| Animal["Animal.prototype: breathe()"]
+  Animal -->|__proto__| ObjProto["Object.prototype: toString, hasOwnProperty"]
   ObjProto -->|__proto__| Null[null]`,
       },
     ],
