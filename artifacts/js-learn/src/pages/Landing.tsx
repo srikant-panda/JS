@@ -277,6 +277,93 @@ function colorize(code: string) {
   });
 }
 
+/* ── stats balls ─────────────────────────────────────────── */
+const STATS = [
+  { value: "8", label: "Chapters", color: "#6394ff", shadow: "rgba(99,148,255,0.35)", size: 140 },
+  { value: "95+", label: "Minutes", color: "#a78bfa", shadow: "rgba(167,139,250,0.35)", size: 120 },
+  { value: "6", label: "Diagrams", color: "#34d399", shadow: "rgba(52,211,153,0.35)", size: 128 },
+  { value: "3", label: "Levels", color: "#fb923c", shadow: "rgba(251,146,60,0.35)", size: 112 },
+];
+
+function StatsBalls() {
+  const [popped, setPopped] = useState<number | null>(null);
+
+  return (
+    <section className="py-16 overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="max-w-4xl mx-auto px-6 flex items-end justify-center gap-6 sm:gap-10">
+        {STATS.map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            data-testid={`stat-${i}`}
+            className="flex flex-col items-center gap-3 cursor-pointer select-none"
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            onClick={() => {
+              setPopped(i);
+              setTimeout(() => setPopped(null), 600);
+            }}
+          >
+            <motion.div
+              animate={
+                popped === i
+                  ? { scale: [1, 1.3, 0.9, 1.08, 1], y: [0, -24, 8, -8, 0] }
+                  : { y: [0, -10, 0] }
+              }
+              transition={
+                popped === i
+                  ? { duration: 0.6, ease: "easeOut" }
+                  : {
+                      duration: 2.4 + i * 0.35,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: i * 0.5,
+                    }
+              }
+              whileHover={{ scale: 1.12 }}
+              style={{
+                width: stat.size,
+                height: stat.size,
+                borderRadius: "50%",
+                background: `radial-gradient(circle at 38% 32%, ${stat.color}cc 0%, ${stat.color}88 40%, ${stat.color}44 70%, transparent 100%)`,
+                boxShadow: `0 8px 32px ${stat.shadow}, 0 0 0 1px ${stat.color}33, inset 0 1px 0 rgba(255,255,255,0.2)`,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                backdropFilter: "blur(2px)",
+              }}
+            >
+              {/* Gloss shine */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "14%",
+                  left: "22%",
+                  width: "38%",
+                  height: "22%",
+                  borderRadius: "50%",
+                  background: "rgba(255,255,255,0.18)",
+                  filter: "blur(3px)",
+                  transform: "rotate(-30deg)",
+                  pointerEvents: "none",
+                }}
+              />
+              <span className="font-bold relative z-10" style={{ fontSize: stat.size * 0.28, color: "#fff", lineHeight: 1 }}>
+                {stat.value}
+              </span>
+            </motion.div>
+            <span className="text-xs font-medium tracking-wide" style={{ color: "rgba(255,255,255,0.45)" }}>
+              {stat.label}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 /* ── features ────────────────────────────────────────────── */
 const features = [
   { icon: BookOpen, title: "Docs-first learning", description: "Every concept is a crisp, focused chapter — written like documentation you actually want to read." },
@@ -399,22 +486,8 @@ export function Landing() {
           </div>
         </section>
 
-        {/* Stats strip */}
-        <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.02)" }}>
-          <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-            {[
-              { value: "8", label: "Chapters" },
-              { value: "95+", label: "Minutes of content" },
-              { value: "6", label: "Interactive diagrams" },
-              { value: "3", label: "Difficulty levels" },
-            ].map((stat, i) => (
-              <motion.div key={stat.label} custom={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} data-testid={`stat-${i}`}>
-                <div className="text-3xl font-bold mb-1" style={{ color: "#6394ff" }}>{stat.value}</div>
-                <div className="text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+        {/* Stats balls */}
+        <StatsBalls />
 
         {/* Features */}
         <section className="py-24 px-6">
