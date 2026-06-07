@@ -66,12 +66,13 @@ function CursorGlow() {
               left: pos.x,
               top: pos.y,
               transform: "translate(-50%, -50%)",
-              width: 160,
-              height: 160,
+              width: 140,
+              height: 140,
               borderRadius: "50%",
               background:
-                "radial-gradient(circle, rgba(99,148,255,0.18) 0%, rgba(59,130,246,0.08) 50%, transparent 70%)",
-              border: "1px solid rgba(99,148,255,0.12)",
+                "radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 50%, transparent 70%)",
+              border: "1px solid rgba(255,255,255,0.15)",
+              boxShadow: "0 0 0 1px rgba(255,255,255,0.05), inset 0 0 30px rgba(255,255,255,0.04)",
             }}
           />
         )}
@@ -97,7 +98,7 @@ function CursorGlow() {
                   transform: "translate(-50%, -50%)",
                   fontSize: 11,
                   fontFamily: "var(--app-font-mono)",
-                  color: "rgba(99,148,255,0.8)",
+                  color: "rgba(255,255,255,0.55)",
                   whiteSpace: "nowrap",
                   pointerEvents: "none",
                 }}
