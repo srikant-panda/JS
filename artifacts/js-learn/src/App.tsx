@@ -11,6 +11,7 @@ import { Home } from "@/pages/Home";
 import { DocReader } from "@/pages/DocReader";
 import { Progress } from "@/pages/Progress";
 import { Playground } from "@/pages/Playground";
+import { Practice } from "@/pages/Practice";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +34,7 @@ function AppRoutes() {
     <Shell>
       <Switch>
         <Route path="/learn" component={Home} />
+        <Route path="/practice" component={Practice} />
         <Route path="/progress" component={Progress} />
         <Route path="/docs/:slug" component={DocReader} />
         <Route path="/playground" component={Playground} />

@@ -95,11 +95,11 @@ export function Playground() {
   };
 
   const lineColor = (type: OutputLine["type"]) => {
-    if (type === "error") return "text-red-400";
-    if (type === "warn") return "text-yellow-400";
+    if (type === "error") return "text-red-600 dark:text-red-400";
+    if (type === "warn") return "text-amber-600 dark:text-amber-400";
     if (type === "return") return "text-primary";
     if (type === "info") return "text-muted-foreground";
-    return "text-green-400";
+    return "text-foreground";
   };
 
   return (

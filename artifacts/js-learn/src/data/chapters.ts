@@ -2,7 +2,7 @@ export type Difficulty = "beginner" | "intermediate" | "advanced";
 
 export type Diagram = {
   id: string;
-  type: string;
+  type: "flowchart" | "scope" | "callstack" | "memory" | "event-loop" | "prototype-chain";
   title: string;
   data: string;
 };
