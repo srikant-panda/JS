@@ -66,13 +66,12 @@ function CursorGlow() {
               left: pos.x,
               top: pos.y,
               transform: "translate(-50%, -50%)",
-              width: 140,
-              height: 140,
+              width: 200,
+              height: 200,
               borderRadius: "50%",
               background:
-                "radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 50%, transparent 70%)",
-              border: "1px solid rgba(255,255,255,0.15)",
-              boxShadow: "0 0 0 1px rgba(255,255,255,0.05), inset 0 0 30px rgba(255,255,255,0.04)",
+                "radial-gradient(circle at center, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.10) 25%, rgba(255,255,255,0.03) 55%, transparent 72%)",
+              pointerEvents: "none",
             }}
           />
         )}
