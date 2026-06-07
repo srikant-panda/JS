@@ -45,8 +45,8 @@ export function Home() {
             Master JavaScript Deeply.
           </h1>
           <p className="max-w-2xl text-lg text-muted-foreground">
-            A precise, interactive journey through the core mechanics of JavaScript. No fluff, just deep technical
-            understanding.
+            A precise, interactive journey through the core mechanics of
+            JavaScript. No fluff, just deep technical understanding.
           </p>
         </header>
 
@@ -65,7 +65,8 @@ export function Home() {
                 <div className="flex items-center gap-1">
                   <BookOpen className="h-4 w-4" />
                   <span>
-                    {progress.completedChapters} / {progress.totalChapters} Chapters
+                    {progress.completedChapters} / {progress.totalChapters}{" "}
+                    Chapters
                   </span>
                 </div>
                 <div className="flex items-center gap-1 text-orange-500">
@@ -106,26 +107,35 @@ export function Home() {
                   href={`/docs/${chapter.slug}`}
                   className={cn(
                     "group flex h-full flex-col justify-between rounded-xl border bg-card p-6 shadow-sm transition-all hover:border-primary/50 hover:shadow-md",
-                    chapter.completed && "border-green-500/20 bg-green-500/5"
+                    chapter.completed && "border-green-500/20 bg-green-500/5",
                   )}
                   data-testid={`chapter-card-${chapter.slug}`}
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <Badge variant="secondary" className={getDifficultyColor(chapter.difficulty)}>
+                      <Badge
+                        variant="secondary"
+                        className={getDifficultyColor(chapter.difficulty)}
+                      >
                         {chapter.difficulty}
                       </Badge>
-                      {chapter.completed && <Trophy className="h-4 w-4 text-green-500" />}
+                      {chapter.completed && (
+                        <Trophy className="h-4 w-4 text-green-500" />
+                      )}
                     </div>
                     <div className="space-y-2">
                       <h3 className="font-semibold leading-none tracking-tight group-hover:text-primary transition-colors">
                         {chapter.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{chapter.description}</p>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {chapter.description}
+                      </p>
                     </div>
                   </div>
                   <div className="mt-6 flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">{chapter.estimatedMinutes} min read</span>
+                    <span className="text-muted-foreground">
+                      {chapter.estimatedMinutes} min read
+                    </span>
                     <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
                   </div>
                 </Link>
