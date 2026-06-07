@@ -10,6 +10,7 @@ import { Landing } from "@/pages/Landing";
 import { Home } from "@/pages/Home";
 import { DocReader } from "@/pages/DocReader";
 import { Progress } from "@/pages/Progress";
+import { Playground } from "@/pages/Playground";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,6 +35,7 @@ function AppRoutes() {
         <Route path="/learn" component={Home} />
         <Route path="/progress" component={Progress} />
         <Route path="/docs/:slug" component={DocReader} />
+        <Route path="/playground" component={Playground} />
         <Route component={NotFound} />
       </Switch>
     </Shell>
@@ -42,7 +44,7 @@ function AppRoutes() {
 
 function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
