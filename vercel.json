@@ -4,7 +4,7 @@
     {
       "src": "artifacts/js-learn/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist/public" }
+      "config": { "distDir": "artifacts/js-learn/dist/public" }
     }
   ],
   "routes": [
