@@ -31,12 +31,12 @@ function CursorGlow() {
 
     counterRef.current += 1;
     if (counterRef.current % 18 === 0) {
-      const pool = [...JS_CONCEPTS].sort(() => Math.random() - 0.5).slice(0, 4);
+      const pool = [...JS_CONCEPTS].sort(() => Math.random() - 0.5).slice(0, 5);
       setConcepts(
         pool.map((text, i) => ({
           text,
-          angle: (i / pool.length) * 360 + Math.random() * 40 - 20,
-          dist: 70 + Math.random() * 40,
+          angle: (i / pool.length) * 360 + Math.random() * 30 - 15,
+          dist: 20 + Math.random() * 55,
           key: counterRef.current + i,
         }))
       );
@@ -66,11 +66,12 @@ function CursorGlow() {
               left: pos.x,
               top: pos.y,
               transform: "translate(-50%, -50%)",
-              width: 200,
-              height: 200,
+              width: 260,
+              height: 260,
               borderRadius: "50%",
               background:
-                "radial-gradient(circle at center, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.10) 25%, rgba(255,255,255,0.03) 55%, transparent 72%)",
+                "radial-gradient(circle at center, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.09) 30%, rgba(255,255,255,0.03) 60%, transparent 75%)",
+              border: "1px solid rgba(255,255,255,0.10)",
               pointerEvents: "none",
             }}
           />
